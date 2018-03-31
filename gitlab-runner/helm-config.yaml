@@ -1,0 +1,4 @@
+# https://gitlab.com/charts/charts.gitlab.io/blob/master/charts/gitlab-runner/values.yaml
+
+gitlabUrl: https://gitlab.com/
+runnerRegistrationToken: 
