@@ -8,6 +8,7 @@ deploy_staging:
   stage: deploy
   image: manics/kube-helm:latest
   before_script:
+    - kubectl config view
     - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
     - helm repo update
     - helm list
