@@ -12,9 +12,11 @@ deploy_staging:
     - kubectl config view
     - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
     - helm repo update
+    - helm repo list
     - helm list
     - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
+    - helm repo list
     - >
         helm install jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
