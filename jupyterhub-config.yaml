@@ -5,35 +5,45 @@ hub:
     type: sqlite-memory
 
 auth:
-  #type: tmp
-  dummy:
-    password: ome123
+  type: tmp
 
 proxy:
   secretToken: b9483342f80a41b229be1b18a729967663d77feb0cf9fd466c742a0795c71bc5
   service:
     type: ClusterIP
 
+cull:
+  timeout: 600
+  every: 300
+
 singleuser:
   image:
     name: manics/jupyter-docker
     tag: merge
     pullPolicy: Always
-
   networkTools:
     image:
       tag: 81c2613
-
   startTimeout: 1800
   memory:
     limit: 1G
     guarantee: 100M
-  storage:
-    type: NONE
+  networkPolicy:
+    enabled: true
+    # Block all internal connections apart from DNS server
+    # Block all external apart from EMBL-EBI
+    egress:
+      - ports:
+        - port: 53
+          protocol: UDP
+      - to:
+        - ipBlock:
+            cidr: 193.60.0.0/14
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
     IDR_PASSWORD: public
+  cmd: jupyter-labhub
 
 prePuller:
   hook:
