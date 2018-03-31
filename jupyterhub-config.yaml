@@ -1,0 +1,53 @@
+
+hub:
+  baseUrl: /gitlab-test/
+  db:
+    type: sqlite-memory
+
+auth:
+  #type: tmp
+  dummy:
+    password: ome123
+
+proxy:
+  secretToken: b9483342f80a41b229be1b18a729967663d77feb0cf9fd466c742a0795c71bc5
+  service:
+    type: ClusterIP
+
+singleuser:
+  image:
+    name: manics/jupyter-docker
+    tag: merge
+    pullPolicy: Always
+
+  networkTools:
+    image:
+      tag: 81c2613
+
+  startTimeout: 1800
+  memory:
+    limit: 1G
+    guarantee: 100M
+  storage:
+    type: NONE
+  extraEnv:
+    IDR_HOST: idr.openmicroscopy.org
+    IDR_USER: public
+    IDR_PASSWORD: public
+
+prePuller:
+  hook:
+    enabled: false
+
+ingress:
+  enabled: true
+  hosts:
+  - idr-training.openmicroscopy.org
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/proxy-body-size: 16m
+    ingress.kubernetes.io/proxy-read-timeout: 3600
+    ingress.kubernetes.io/proxy-send-timeout: 3600
+  tls:
+  - hosts:
+    - idr-training.openmicroscopy.org
