@@ -3,6 +3,7 @@ stages:
 
 variables:
   JUPYTERHUB_CHART_VERSION: jupyterhub-v0.7-2560dad
+  JUPYTERHUB_DEPLOYMENT_NAME: kubernetes-runner-helm-test
 
 deploy_staging:
   stage: deploy
@@ -12,11 +13,12 @@ deploy_staging:
     - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
     - helm repo update
     - helm list
+    - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
     - >
-        helm upgrade --install jupyterhub/jupyterhub
+        helm install jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
-        --name=kubernetes-runner-helm-test
+        --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
   environment:
     name: staging
