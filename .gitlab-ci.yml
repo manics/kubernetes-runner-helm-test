@@ -12,7 +12,8 @@ deploy_staging:
     - helm repo update
     - helm list
   script:
-    - > helm upgrade --install jupyterhub/jupyterhub
+    - >
+        helm upgrade --install jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
         --name=kubernetes-runner-helm-test
         -f jupyterhub-config.yaml
