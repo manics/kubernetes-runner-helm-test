@@ -17,6 +17,8 @@ cull:
   every: 300
 
 singleuser:
+  storage:
+    type: none
   image:
     name: manics/jupyter-docker
     tag: merge
