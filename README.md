@@ -1,3 +1,7 @@
+# Test GitLab continuous deployment
+
+This is a temporary repository for testing GitLab continuous deployment with GitHub.
+All configuration should be done in the GitHub repository, which is mirrored to a private GitLab repository for integration with it's CI/CD.
 
 
 ## Create a namespace, role, account and additional token for the Gitlab runner
@@ -19,7 +23,14 @@ https://gitlab.com/help/user/project/clusters/index#adding-an-existing-kubernete
 
 https://docs.gitlab.com/ee/install/kubernetes/gitlab_runner_chart.html#installing-gitlab-runner-using-the-helm-chart
 
-Set the `runnerRegistrationToken` in gitlab-runner/helm-config.yaml and deploy
+Go to the `Runners settings ` tab under https://gitlab.com/USERNAME/REPOSITORY/settings/ci_cd.
+Get the Runner registration token from and set `runnerRegistrationToken` in gitlab-runner/helm-config.yaml to this value
+Deploy the GitLab runner:
 
     helm repo add gitlab https://charts.gitlab.io
-    helm install --namespace gitlab --name gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
+    helm install --namespace gitlab --name gitlab-runner -f gitlab/gitlab-runner gitlab-runner/helm-config.yaml
+
+Ensure you `Disable shared Runners` since this is used for a deployment so shared GitLab runner cannot be used.
+
+Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
+- `SECRET_JUPYTERHUB_PROXY_TOKEN`

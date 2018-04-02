@@ -2,7 +2,7 @@
 # helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
 
 gitlabUrl: https://gitlab.com/
-runnerRegistrationToken: 
+runnerRegistrationToken: # Secret
 rbac:
   create: true
   clusterWideAccess: true
