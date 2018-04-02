@@ -8,7 +8,7 @@ auth:
   type: tmp
 
 proxy:
-  secretToken: b9483342f80a41b229be1b18a729967663d77feb0cf9fd466c742a0795c71bc5
+  secretToken: # GitLab secret
   service:
     type: ClusterIP
 

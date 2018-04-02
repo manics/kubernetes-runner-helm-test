@@ -24,6 +24,7 @@ deploy_staging:
         --version=$JUPYTERHUB_CHART_VERSION
         --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
+        --set proxy.secretToken "$SECRET_JUPYTERHUB_PROXY_TOKEN"
   environment:
     name: staging
     url: https://idr-testing.openmicroscopy.org
