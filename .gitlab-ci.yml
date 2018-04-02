@@ -19,14 +19,22 @@ deploy_staging:
     - helm list
     - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
-    - helm repo list
     - >
-        helm install --namespace=$JUPYTERHUB_NAMESPACE
+        echo helm install
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
+        --namespace=$JUPYTERHUB_NAMESPACE
         --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
-        --set proxy.secretToken "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+        --set proxy.secretToken=SECRET
+    - >
+        helm install
+        jupyterhub/jupyterhub
+        --version=$JUPYTERHUB_CHART_VERSION
+        --namespace=$JUPYTERHUB_NAMESPACE
+        --name=$JUPYTERHUB_DEPLOYMENT_NAME
+        -f jupyterhub-config.yaml
+        --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
   environment:
     name: staging
     url: https://idr-testing.openmicroscopy.org

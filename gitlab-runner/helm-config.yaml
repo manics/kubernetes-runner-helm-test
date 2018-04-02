@@ -8,3 +8,8 @@ rbac:
   create: false
   #clusterWideAccess: true
   serviceAccountName: gitlab-runner
+
+# Private fork:
+runners:
+  environment:
+    KUBERNETES_SERVICE_ACCOUNT_OVERWRITE_ALLOWED: ".*"
