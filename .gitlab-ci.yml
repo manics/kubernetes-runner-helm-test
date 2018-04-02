@@ -1,20 +1,21 @@
 stages:
-  - deploy
+  - deploy_staging
+  - deploy_production
 
 variables:
   # Don't use default since we need extra permissions for deployment
   KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
   JUPYTERHUB_CHART_VERSION: v0.7-2560dad
-  JUPYTERHUB_DEPLOYMENT_NAME: kubernetes-runner-helm-test
-  JUPYTERHUB_NAMESPACE: gitlab
-  # Since we're running inside a Kubernetes pod we can use internal DNS
-  JUPYTERHUB_STAGING_URL: http://proxy-public/gitlab-test
 
+# Delete and install
 deploy_staging:
-  stage: deploy
+  stage: deploy_staging
+  variables:
+    JUPYTERHUB_DEPLOYMENT_NAME: gitlab-jupyterhub-staging
+    # Since we're running inside a Kubernetes pod we can use internal DNS
+    JUPYTERHUB_URL: http://proxy-public.gitlab-jupyterhub-staging/gitlab-test
   image: manics/kube-helm:latest
   before_script:
-    - kubectl config view
     - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
     - helm repo update
     - helm repo list
@@ -25,18 +26,19 @@ deploy_staging:
         helm install
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
-        --namespace=$JUPYTERHUB_NAMESPACE
+        --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
         --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
+        -f jupyterhub-staging.yaml
         --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
     - i=0
-    - until (curl --fail -L $JUPYTERHUB_STAGING_URL/hub/api || [[ $i -gt 60 ]]); do
+    - until (curl --fail -L $JUPYTERHUB_URL/hub/api || [[ $i -gt 60 ]]); do
         sleep 10;
         let i++;
         echo "Waited ${i}0 seconds";
       done
-    - curl --fail -s $JUPYTERHUB_STAGING_URL/hub/api | grep version
+    - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
 
   environment:
@@ -44,3 +46,42 @@ deploy_staging:
     url: https://idr-testing.openmicroscopy.org
   only:
   - master
+
+# Upgrade if already installed
+deploy_production:
+  stage: deploy_production
+  variables:
+    JUPYTERHUB_DEPLOYMENT_NAME: gitlab-jupyterhub
+    # Since we're running inside a Kubernetes pod we can use internal DNS
+    JUPYTERHUB_URL: http://proxy-public.gitlab-jupyterhub/gitlab-test
+  image: manics/kube-helm:latest
+  before_script:
+    - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
+    - helm repo update
+    - helm repo list
+    - helm list
+  script:
+    - >
+        helm upgrade --install
+        jupyterhub/jupyterhub
+        --version=$JUPYTERHUB_CHART_VERSION
+        --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
+        $JUPYTERHUB_DEPLOYMENT_NAME
+        -f jupyterhub-config.yaml
+        --wait --timeout 1200
+        --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
+    - i=0
+    - until (curl --fail -L $JUPYTERHUB_URL/hub/api || [[ $i -gt 60 ]]); do
+        sleep 10;
+        let i++;
+        echo "Waited ${i}0 seconds";
+      done
+    - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
+    # TODO: Check we can run singleuser servers
+
+  environment:
+    name: production
+    url: https://idr-testing.openmicroscopy.org
+  only:
+  - master
+  when: manual

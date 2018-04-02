@@ -1,6 +1,6 @@
 
 hub:
-  baseUrl: /gitlab-test/
+  baseUrl: /test-public/
   db:
     type: sqlite-memory
 
@@ -49,7 +49,7 @@ singleuser:
 
 prePuller:
   hook:
-    enabled: false
+    enabled: true
 
 ingress:
   enabled: true
