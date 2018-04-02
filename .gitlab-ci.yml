@@ -7,6 +7,8 @@ variables:
   JUPYTERHUB_CHART_VERSION: v0.7-2560dad
   JUPYTERHUB_DEPLOYMENT_NAME: kubernetes-runner-helm-test
   JUPYTERHUB_NAMESPACE: gitlab
+  # Since we're running inside a Kubernetes pod we can use internal DNS
+  JUPYTERHUB_STAGING_URL: http://proxy-public/gitlab-test
 
 deploy_staging:
   stage: deploy
@@ -20,21 +22,23 @@ deploy_staging:
     - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
     - >
-        echo helm install
-        jupyterhub/jupyterhub
-        --version=$JUPYTERHUB_CHART_VERSION
-        --namespace=$JUPYTERHUB_NAMESPACE
-        --name=$JUPYTERHUB_DEPLOYMENT_NAME
-        -f jupyterhub-config.yaml
-        --set proxy.secretToken=SECRET
-    - >
         helm install
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
         --namespace=$JUPYTERHUB_NAMESPACE
         --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
+        --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
+    - i=0
+    - until (curl --fail -L $JUPYTERHUB_STAGING_URL/hub/api || [[ $i -gt 60 ]]); do
+        sleep 10
+        let i++
+        echo "Waited ${i}0 seconds"
+      done
+    - curl --fail -s $JUPYTERHUB_STAGING_URL/hub/api | grep version
+    # TODO: Check we can run singleuser servers
+
   environment:
     name: staging
     url: https://idr-testing.openmicroscopy.org
