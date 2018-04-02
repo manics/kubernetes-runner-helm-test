@@ -33,11 +33,7 @@ deploy_staging:
         --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
     - i=0
-    - until (curl --fail -L $JUPYTERHUB_URL/hub/api || [[ $i -gt 60 ]]); do
-        sleep 10;
-        let i++;
-        echo "Waited ${i}0 seconds";
-      done
+    - while [ $i -lt 60 ]; do sleep 10; let i++; if curl --fail -s -L --max-time 2 $JUPYTERHUB_URL/hub/api; then break; fi; echo "Waited ${i}0 seconds"; done;
     - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
 
@@ -71,11 +67,7 @@ deploy_production:
         --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
     - i=0
-    - until (curl --fail -L $JUPYTERHUB_URL/hub/api || [[ $i -gt 60 ]]); do
-        sleep 10;
-        let i++;
-        echo "Waited ${i}0 seconds";
-      done
+    - while [ $i -lt 60 ]; do sleep 10; let i++; if curl --fail -s -L --max-time 2 $JUPYTERHUB_URL/hub/api; then break; fi; echo "Waited ${i}0 seconds"; done;
     - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
 
