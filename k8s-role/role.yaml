@@ -4,8 +4,6 @@ metadata:
   name: gitlab-runner
   namespace: gitlab
 rules:
-#- apiGroups: [""]
-#- apiGroups: ["", "extensions", "apps"]
 - apiGroups: ["*"]
   resources: ["*"]
   verbs: ["*"]

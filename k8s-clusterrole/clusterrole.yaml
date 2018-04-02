@@ -3,8 +3,8 @@ kind: ClusterRole
 metadata:
   name: gitlab-runner
 rules:
-- apiGroups: [""]
-#- apiGroups: ["", "extensions", "apps"]
-#- apiGroups: ["*"]
+# Default in gitlab-runner helm chart is insufficent
+#- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["*"]

@@ -1,7 +1,14 @@
 # Test GitLab continuous deployment
 
 This is a temporary repository for testing GitLab continuous deployment with GitHub.
-All configuration should be done in the GitHub repository, which is mirrored to a private GitLab repository for integration with it's CI/CD.
+
+
+## Create a `CI/CD for external repo` project on GitLab
+
+https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html
+
+All configuration and code changes should be done in the GitHub repository.
+The GitLab repository is purely a mirror for integration with CI/CD.
 
 
 ## Create a namespace, role, account and additional token for the Gitlab runner
