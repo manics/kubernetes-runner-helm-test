@@ -2,10 +2,11 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 #kind: ClusterRole
 metadata:
-  name: gitlab
+  name: gitlab-runner
+  namespace: gitlab
 rules:
-- apiGroups: [""]
+#- apiGroups: [""]
 #- apiGroups: ["", "extensions", "apps"]
-#- apiGroups: ["*"]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["*"]

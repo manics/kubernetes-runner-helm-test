@@ -4,5 +4,7 @@
 gitlabUrl: https://gitlab.com/
 runnerRegistrationToken: # Secret
 rbac:
-  create: true
-  clusterWideAccess: true
+  # Setup our own permissions
+  create: false
+  #clusterWideAccess: true
+  serviceAccountName: gitlab-runner
