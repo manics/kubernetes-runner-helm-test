@@ -28,7 +28,6 @@ deploy_staging:
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
         --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
-        --name=$JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
         -f jupyterhub-staging.yaml
         --wait --timeout 1200
