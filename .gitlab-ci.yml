@@ -32,9 +32,9 @@ deploy_staging:
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
     - i=0
     - until (curl --fail -L $JUPYTERHUB_STAGING_URL/hub/api || [[ $i -gt 60 ]]); do
-        sleep 10
-        let i++
-        echo "Waited ${i}0 seconds"
+        sleep 10;
+        let i++;
+        echo "Waited ${i}0 seconds";
       done
     - curl --fail -s $JUPYTERHUB_STAGING_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
