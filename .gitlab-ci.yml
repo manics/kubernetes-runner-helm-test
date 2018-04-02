@@ -23,7 +23,8 @@ deploy_staging:
     - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
     - >
-        helm install
+        helm upgrade --install
+        $JUPYTERHUB_DEPLOYMENT_NAME
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
         --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
@@ -59,10 +60,10 @@ deploy_production:
   script:
     - >
         helm upgrade --install
+        $JUPYTERHUB_DEPLOYMENT_NAME
         jupyterhub/jupyterhub
         --version=$JUPYTERHUB_CHART_VERSION
         --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
-        $JUPYTERHUB_DEPLOYMENT_NAME
         -f jupyterhub-config.yaml
         --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
