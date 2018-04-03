@@ -17,7 +17,7 @@ stages:
 variables:
   # Don't use default since we need extra permissions for deployment
   KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
-  JUPYTERHUB_CHART_VERSION: v0.7-2560dad
+  JUPYTERHUB_CHART_VERSION: v0.7-4104389
 
 deploy_staging:
   stage: deploy_staging

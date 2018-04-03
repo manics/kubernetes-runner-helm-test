@@ -5,6 +5,8 @@ hub:
   baseUrl: /staging/
   db:
     type: sqlite-memory
+  networkPolicy:
+    enabled: true
 
 auth:
   type: tmp
@@ -13,6 +15,8 @@ proxy:
   secretToken: # GitLab secret
   service:
     type: ClusterIP
+  networkPolicy:
+    enabled: true
 
 cull:
   timeout: 600
