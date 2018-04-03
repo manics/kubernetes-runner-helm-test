@@ -45,6 +45,7 @@ Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
 - `SECRET_GITHUB_CLIENTID` (production-vae only)
 - `SECRET_GITHUB_CLIENTSECRET` (production-vae only)
 
+![GitLab secret variables](docs/gitlab-secret-variables.png)
 
 ## Additional notes
 
