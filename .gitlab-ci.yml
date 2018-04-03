@@ -1,5 +1,9 @@
 stages:
+  # Staging is run automatically when master is updated
+  # Deletes an existing deployment before installing
   - deploy_staging
+  # Production requires a manual trigger
+  # Upgrades if already installed
   - deploy_production
 
 variables:
@@ -7,70 +11,44 @@ variables:
   KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
   JUPYTERHUB_CHART_VERSION: v0.7-2560dad
 
-# Delete and install
 deploy_staging:
   stage: deploy_staging
   variables:
     JUPYTERHUB_DEPLOYMENT_NAME: gitlab-jupyterhub-staging
     # Since we're running inside a Kubernetes pod we can use internal DNS
-    JUPYTERHUB_URL: http://proxy-public.gitlab-jupyterhub-staging/gitlab-test
+    JUPYTERHUB_URL: http://proxy-public.${JUPYTERHUB_DEPLOYMENT_NAME}/gitlab-test
   image: manics/kube-helm:latest
   before_script:
-    - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
-    - helm repo update
-    - helm repo list
-    - helm list
+    - sh deploy/before.sh
     - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
   script:
     - >
-        helm upgrade --install
-        $JUPYTERHUB_DEPLOYMENT_NAME
-        jupyterhub/jupyterhub
-        --version=$JUPYTERHUB_CHART_VERSION
-        --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
+        sh deploy/deploy.sh
         -f jupyterhub-config.yaml
         -f jupyterhub-staging.yaml
-        --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
-    - i=1
-    - while [ $i -lt 60 ]; do sleep 10; let i++; if curl --fail -s -L --max-time 2 $JUPYTERHUB_URL/hub/api; then break; fi; echo "Waited ${i}0 seconds"; done;
-    - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
-
   environment:
     name: staging
     url: https://idr-testing.openmicroscopy.org
   only:
   - master
 
-# Upgrade if already installed
 deploy_production:
   stage: deploy_production
   variables:
     JUPYTERHUB_DEPLOYMENT_NAME: gitlab-jupyterhub
     # Since we're running inside a Kubernetes pod we can use internal DNS
-    JUPYTERHUB_URL: http://proxy-public.gitlab-jupyterhub/test-public
+    JUPYTERHUB_URL: http://proxy-public.${JUPYTERHUB_DEPLOYMENT_NAME}/test-public
   image: manics/kube-helm:latest
   before_script:
-    - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
-    - helm repo update
-    - helm repo list
-    - helm list
+    - sh deploy/before.sh
   script:
     - >
-        helm upgrade --install
-        $JUPYTERHUB_DEPLOYMENT_NAME
-        jupyterhub/jupyterhub
-        --version=$JUPYTERHUB_CHART_VERSION
-        --namespace=$JUPYTERHUB_DEPLOYMENT_NAME
+        sh deploy/deploy.sh
         -f jupyterhub-config.yaml
-        --wait --timeout 1200
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
-    - i=1
-    - while [ $i -lt 60 ]; do sleep 10; let i++; if curl --fail -s -L --max-time 2 $JUPYTERHUB_URL/hub/api; then break; fi; echo "Waited ${i}0 seconds"; done;
-    - curl --fail -s $JUPYTERHUB_URL/hub/api | grep version
     # TODO: Check we can run singleuser servers
-
   environment:
     name: production
     url: https://idr-testing.openmicroscopy.org
