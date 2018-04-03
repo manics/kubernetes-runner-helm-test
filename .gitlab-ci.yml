@@ -27,6 +27,7 @@ deploy_staging:
         -f jupyterhub-config.yaml
         -f jupyterhub-staging.yaml
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
+        --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
     # TODO: Check we can run singleuser servers
   environment:
     name: staging
@@ -48,6 +49,7 @@ deploy_production:
         sh deploy/deploy.sh
         -f jupyterhub-config.yaml
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
+        --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
     # TODO: Check we can run singleuser servers
   environment:
     name: production

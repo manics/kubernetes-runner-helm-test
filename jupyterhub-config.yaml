@@ -44,7 +44,6 @@ singleuser:
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
-    IDR_PASSWORD: public
   cmd: jupyter-labhub
 
 prePuller:
