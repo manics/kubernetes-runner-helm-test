@@ -28,7 +28,6 @@ deploy_staging:
     - >
         sh deploy/deploy.sh
         -f jupyterhub-config.yaml
-        -f jupyterhub-staging.yaml
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
         --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
     # TODO: Check we can run singleuser servers
@@ -48,11 +47,12 @@ deploy_production_public:
     - >
         sh deploy/deploy.sh
         -f jupyterhub-config.yaml
+        -f jupyterhub-public.yaml
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
         --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
     # TODO: Check we can run singleuser servers
   environment:
-    name: production
+    name: production-public
     url: https://idr-training.openmicroscopy.org/public
   only:
   - master
@@ -68,13 +68,14 @@ deploy_production_vae:
     - >
         sh deploy/deploy.sh
         -f jupyterhub-config.yaml
+        -f jupyterhub-vae.yaml
         --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
         --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
         --set auth.github.clientId=$SECRET_GITHUB_CLIENTID
         --set auth.github.clientSecret=$SECRET_GITHUB_CLIENTSECRET
     # TODO: Check we can run singleuser servers
   environment:
-    name: production
+    name: production-vae
     url: https://idr-training.openmicroscopy.org/vae
   only:
   - master
