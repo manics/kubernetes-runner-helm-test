@@ -1,3 +1,0 @@
-# Override production configuration in staging environment
-hub:
-  baseUrl: /gitlab-test/

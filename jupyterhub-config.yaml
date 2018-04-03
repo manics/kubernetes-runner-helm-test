@@ -1,6 +1,8 @@
+# Configuration for JupyterHub staging deployment
+# Overridden in production deployments
 
 hub:
-  baseUrl: /test-public/
+  baseUrl: /staging/
   db:
     type: sqlite-memory
 
@@ -24,7 +26,6 @@ singleuser:
     tag: merge
     pullPolicy: Always
   networkTools:
-    image:
       tag: 81c2613
   startTimeout: 1800
   memory:
@@ -32,15 +33,21 @@ singleuser:
     guarantee: 100M
   networkPolicy:
     enabled: true
-    # Block all internal connections apart from DNS server
-    # Block all external apart from EMBL-EBI
+    # Block all except:
+    # - internal DNS
+    # - EMBL-EBI and University of Dundee
     egress:
-      - ports:
+      - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        ports:
         - port: 53
           protocol: UDP
       - to:
         - ipBlock:
             cidr: 193.60.0.0/14
+        - ipBlock:
+            cidr: 134.36.0.0/16
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public

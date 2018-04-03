@@ -6,7 +6,13 @@ set -eu
 # Required environment variables:
 test -n "$JUPYTERHUB_DEPLOYMENT_NAME"
 test -n "$JUPYTERHUB_CHART_VERSION"
-test -n "$JUPYTERHUB_DEPLOYMENT_NAME"
+
+JUPYTERHUB_PREFIX="${JUPYTERHUB_DEPLOYMENT_NAME#*-}"
+test -n "$JUPYTERHUB_PREFIX"
+
+# Since we're running inside a Kubernetes pod we can use internal kube-dns
+JUPYTERHUB_URL="http://proxy-public.${JUPYTERHUB_DEPLOYMENT_NAME}/${JUPYTERHUB_PREFIX}"
+
 
 helm upgrade --install \
     "$JUPYTERHUB_DEPLOYMENT_NAME" \

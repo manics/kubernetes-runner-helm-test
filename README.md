@@ -41,6 +41,7 @@ This repo is used for deployments so shared GitLab runners cannot be used.
 
 Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
 - `SECRET_JUPYTERHUB_PROXY_TOKEN`
+- `SECRET_IDR_PASSWORD`
 
 
 ## Additional notes
