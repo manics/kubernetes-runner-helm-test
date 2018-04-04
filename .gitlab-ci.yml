@@ -1,7 +1,7 @@
 ######################################################################
 # Common settings
 
-image: manics/kube-helm:helmfile
+image: manics/kube-helm:0.1.0
 
 stages:
   - deploy_staging
