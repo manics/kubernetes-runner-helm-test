@@ -1,4 +1,6 @@
-# Common parameters for all stages
+######################################################################
+# Common settings
+
 image: manics/kube-helm:helmfile
 
 stages:
@@ -19,17 +21,18 @@ variables:
 before_script:
   - helm list
 
-# Deployment commands
-script:
-  - helmfile --hide-args --selector deployment=$DEPLOYMENT sync --args '--wait --timeout=1200'
-  - sh gitlab-ci/test.sh
-  # TODO: Check we can run singleuser servers
+
+######################################################################
+# Jobs
 
 deploy_staging:
   stage: deploy_staging
   before_script:
     - helm list
     - helm delete --purge jupyterhub-staging || true
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
   environment:
     name: staging-staging
     url: https://idr-training.openmicroscopy.org/staging
@@ -38,6 +41,9 @@ deploy_staging:
 
 deploy_production_public:
   stage: deploy_production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
   environment:
     name: production-public
     url: https://idr-training.openmicroscopy.org/public
@@ -47,6 +53,9 @@ deploy_production_public:
 
 deploy_production_vae:
   stage: deploy_production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
   environment:
     name: production-vae
     url: https://idr-training.openmicroscopy.org/vae
