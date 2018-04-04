@@ -24,7 +24,7 @@ deploy_staging:
   stage: deploy_staging
   before_script:
     - helm list
-    - helm delete --purge jupyterhub-staging || true
+    - helmfile --selector deployment=staging delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
