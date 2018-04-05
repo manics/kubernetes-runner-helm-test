@@ -61,3 +61,17 @@ deploy_production_vae:
   only:
   - master
   when: manual
+
+# VAE AAI production requires a manual trigger
+# Upgrades if already installed
+deploy_production_vaeaai:
+  stage: deploy_production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: production-vaeaai
+    url: https://idr-training.openmicroscopy.org/vae
+  only:
+  - master
+  when: manual
