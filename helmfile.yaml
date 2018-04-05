@@ -55,13 +55,13 @@ releases:
         value: "{{ env \"SECRET_GITHUB_CLIENTSECRET\" }}"
 
   - <<: *RELEASE_COMMON
-    name: jupyterhub-vaeaai
-    namespace: jupyterhub-vaeaai
+    name: jupyterhub-vae-aai
+    namespace: jupyterhub-vae-aai
     labels:
-      deployment: vaeaai
+      deployment: vae-aai
     values:
       - jupyterhub-config.yaml
-      - jupyterhub-vaeaai.yaml
+      - jupyterhub-vae-aai.yaml
     set:
       - name: proxy.secretToken
         value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"

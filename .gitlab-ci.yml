@@ -70,7 +70,7 @@ deploy_production_vaeaai:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
   environment:
-    name: production-vaeaai
+    name: production-vae-aai
     url: https://idr-training.openmicroscopy.org/vae
   only:
   - master
