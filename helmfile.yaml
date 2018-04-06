@@ -74,7 +74,7 @@ releases:
 
   - name: idr-analysis-website
     namespace: idr-analysis-website
-    chart: charts/idr-analysis-website
+    chart: ./charts/idr-analysis-website
     labels:
       deployment: website
     set:
