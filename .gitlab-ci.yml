@@ -5,6 +5,7 @@ image: manics/kube-helm:0.1.0
 
 stages:
   - deploy_staging
+  - deploy_approval
   - deploy_production
 
 variables:
@@ -34,7 +35,17 @@ deploy_staging:
   only:
   - master
 
-# Public (no login) production requires a manual trigger
+# Production requires a manual trigger
+deploy_approval:
+  stage: deploy_approval
+  script:
+    - echo Manual approval required
+  allow_failure: false
+  only:
+  - master
+  when: manual
+
+# Public (no login) production
 # Upgrades if already installed
 deploy_production_public:
   stage: deploy_production
@@ -46,9 +57,8 @@ deploy_production_public:
     url: https://idr-training.openmicroscopy.org/public
   only:
   - master
-  when: manual
 
-# VAE production requires a manual trigger
+# VAE production
 # Upgrades if already installed
 deploy_production_vae:
   stage: deploy_production
@@ -60,9 +70,8 @@ deploy_production_vae:
     url: https://idr-training.openmicroscopy.org/vae
   only:
   - master
-  when: manual
 
-# VAE AAI production requires a manual trigger
+# VAE AAI production
 # Upgrades if already installed
 deploy_production_vaeaai:
   stage: deploy_production
@@ -74,9 +83,8 @@ deploy_production_vaeaai:
     url: https://idr-training.openmicroscopy.org/vae
   only:
   - master
-  when: manual
 
-# Website requires a manual trigger
+# Website
 # Upgrades if already installed
 deploy_website:
   stage: deploy_production
@@ -87,4 +95,3 @@ deploy_website:
     url: https://idr-training.openmicroscopy.org/
   only:
   - master
-  when: manual
