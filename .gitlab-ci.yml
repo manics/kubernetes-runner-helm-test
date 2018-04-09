@@ -4,9 +4,9 @@
 image: manics/kube-helm:0.1.0
 
 stages:
-  - deploy_staging
-  - deploy_approval
-  - deploy_production
+  - staging
+  - approval
+  - production
 
 variables:
   # Don't use default since we need extra permissions for deployment
@@ -21,8 +21,8 @@ before_script:
 
 # Staging is run automatically when master is updated
 # Deletes an existing deployment before installing
-deploy_staging:
-  stage: deploy_staging
+staging:
+  stage: staging
   before_script:
     - helm list
     - helmfile --selector deployment=staging delete || true
@@ -36,8 +36,8 @@ deploy_staging:
   - master
 
 # Production requires a manual trigger
-deploy_approval:
-  stage: deploy_approval
+approval:
+  stage: approval
   script:
     - echo Manual approval required
   allow_failure: false
@@ -47,8 +47,8 @@ deploy_approval:
 
 # Public (no login) production
 # Upgrades if already installed
-deploy_production_public:
-  stage: deploy_production
+deploy_public:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -60,8 +60,8 @@ deploy_production_public:
 
 # VAE production
 # Upgrades if already installed
-deploy_production_vae:
-  stage: deploy_production
+deploy_vae:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -73,8 +73,8 @@ deploy_production_vae:
 
 # VAE AAI production
 # Upgrades if already installed
-deploy_production_vaeaai:
-  stage: deploy_production
+deploy_vaeaai:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -87,7 +87,7 @@ deploy_production_vaeaai:
 # Website
 # Upgrades if already installed
 deploy_website:
-  stage: deploy_production
+  stage: production
   script:
     - helmfile --selector deployment=website sync --args '--wait --timeout=300'
   environment:
