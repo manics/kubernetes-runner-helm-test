@@ -85,3 +85,5 @@ releases:
     set:
       - name: ingress.hosts.0
         value: idr-training.openmicroscopy.org
+      - name: image.pullPolicy
+        value: Always
