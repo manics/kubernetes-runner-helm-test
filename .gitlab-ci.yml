@@ -25,7 +25,7 @@ staging:
   stage: staging
   before_script:
     - helm list
-    - helmfile --selector deployment=staging delete || true
+    - helmfile --selector application=staging delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -89,7 +89,7 @@ deploy_vaeaai:
 deploy_website:
   stage: production
   script:
-    - helmfile --selector deployment=website sync --args '--wait --timeout=300'
+    - helmfile --selector application=website sync --args '--wait --timeout=300'
   environment:
     name: production-website
     url: https://idr-training.openmicroscopy.org/
