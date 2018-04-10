@@ -26,8 +26,10 @@ singleuser:
   storage:
     type: none
   image:
-    name: manics/jupyter-docker
-    tag: merge
+#    name: manics/jupyter-docker
+#    tag: merge
+    name: jupyter/base-notebook
+    tag: 8a1b90cbcba5
     pullPolicy: Always
   networkTools:
       tag: 81c2613
