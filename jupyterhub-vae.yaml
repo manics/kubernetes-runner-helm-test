@@ -11,6 +11,9 @@ auth:
     - idr-contrib
   scopes:
   - read:org
+  admin:
+    users:
+    - manics
 
 singleuser:
   storage:
