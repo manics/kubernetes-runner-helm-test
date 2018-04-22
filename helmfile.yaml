@@ -89,23 +89,22 @@ releases:
         value: Always
 
   - name: prometheus
-    namespace: prometheus
+    namespace: monitoring
     chart: stable/prometheus
     version: 6.2.1
     labels:
       deployment: production
-      application: prometheus
+      application: monitoring
     values:
       - prometheus-public.yaml
-    # helmfile --selector application=prometheus sync --args '--wait --timeout=300 --debug --dry-run'
 
   - name: grafana
-    namespace: grafana
+    namespace: monitoring
     chart: stable/grafana
     version: 1.2.0
     labels:
       deployment: production
-      application: grafana
+      application: monitoring
     values:
       - grafana-public.yaml
     # kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
