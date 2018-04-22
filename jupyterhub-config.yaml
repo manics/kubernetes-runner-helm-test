@@ -7,6 +7,8 @@ hub:
     type: sqlite-memory
   networkPolicy:
     enabled: true
+  extraConfig: |
+    c.JupyterHub.cleanup_servers = True
 
 auth:
   type: tmp

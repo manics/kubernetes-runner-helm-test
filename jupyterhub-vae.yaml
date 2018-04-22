@@ -1,5 +1,7 @@
 hub:
   baseUrl: /vae/
+  extraConfig: |
+    c.JupyterHub.cleanup_servers = False
 
 auth:
   type: github
