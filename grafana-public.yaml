@@ -22,6 +22,7 @@ persistence:
 # grafana:
 #   ini:
 env:
+  GF_AUTH_ANONYMOUS_ENABLED: "true"
   GF_SERVER_DOMAIN: idr-training.openmicroscopy.org
   GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s:/grafana"
 
