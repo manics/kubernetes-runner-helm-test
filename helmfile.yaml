@@ -87,3 +87,25 @@ releases:
         value: idr-training.openmicroscopy.org
       - name: image.pullPolicy
         value: Always
+
+  - name: prometheus
+    namespace: prometheus
+    chart: stable/prometheus
+    version: 6.2.1
+    labels:
+      deployment: production
+      application: prometheus
+    values:
+      - prometheus-public.yaml
+    # helmfile --selector application=prometheus sync --args '--wait --timeout=300 --debug --dry-run'
+
+  - name: grafana
+    namespace: grafana
+    chart: stable/grafana
+    version: 1.2.0
+    labels:
+      deployment: production
+      application: grafana
+    values:
+      - grafana-public.yaml
+    # kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo

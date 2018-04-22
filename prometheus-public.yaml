@@ -1,0 +1,30 @@
+# Based on
+# https://github.com/jupyterhub/mybinder.org-deploy/blob/d53420cdbc94d2148018594d33cd35810bbffbf1/mybinder/values.yaml#L213
+nodeExporter:
+  updateStrategy:
+    type: RollingUpdate
+alertmanager:
+  enabled: false
+pushgateway:
+  enabled: false
+rbac:
+  create: true
+server:
+  extraArgs:
+    # https://github.com/prometheus/prometheus/issues/2813#issuecomment-344359402
+    web.external-url: https://idr-training.openmicroscopy.org/prometheus
+    web.route-prefix: /
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/add-base-url: "true"
+    hosts:
+    # Requires Helm 2.8.2 due to a bug(?)
+    - idr-training.openmicroscopy.org/prometheus
+    tls:
+    - hosts:
+      - idr-training.openmicroscopy.org
+  persistentVolume:
+    enabled: false

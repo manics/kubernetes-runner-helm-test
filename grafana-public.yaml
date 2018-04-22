@@ -1,0 +1,36 @@
+# Based on
+# https://github.com/jupyterhub/mybinder.org-deploy/blob/d53420cdbc94d2148018594d33cd35810bbffbf1/mybinder/values.yaml#L164
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/add-base-url: "true"
+  path: /grafana
+  hosts:
+  - idr-training.openmicroscopy.org
+  tls:
+  - hosts:
+    - idr-training.openmicroscopy.org
+
+persistence:
+  enabled: false
+
+# https://github.com/kubernetes/charts/blob/master/stable/grafana/templates/configmap.yaml
+# http://docs.grafana.org/installation/configuration/
+# grafana:
+#   ini:
+env:
+  GF_SERVER_DOMAIN: idr-training.openmicroscopy.org
+  GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s:/grafana"
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus
+      access: proxy
+      isDefault: true
