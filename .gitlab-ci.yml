@@ -49,6 +49,8 @@ approval:
 # Upgrades if already installed
 deploy_public:
   stage: production
+  before_script:
+    - helmfile --selector application=public delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
