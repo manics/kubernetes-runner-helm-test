@@ -35,3 +35,23 @@ datasources:
       url: http://prometheus-server
       access: proxy
       isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards
+
+dashboards:
+  # Install https://grafana.com/dashboards/5849
+  idr-jupyter-servers:
+    gnetId: 5849
+    revision: 1
+    datasource: Prometheus

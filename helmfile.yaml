@@ -107,4 +107,4 @@ releases:
       application: monitoring
     values:
       - grafana-public.yaml
-    # kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+    # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
