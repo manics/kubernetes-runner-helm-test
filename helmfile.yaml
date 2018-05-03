@@ -107,4 +107,11 @@ releases:
       application: monitoring
     values:
       - grafana-public.yaml
+    set:
+      - name: env.GF_AUTH_GITHUB_CLIENT_ID
+        value: "{{ env \"SECRET_GRAFANA_GITHUB_CLIENTID\" }}"
+      - name: env.GF_AUTH_GITHUB_CLIENT_SECRET
+        value: "{{ env \"SECRET_GRAFANA_GITHUB_SECRETID\" }}"
+
+
     # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo

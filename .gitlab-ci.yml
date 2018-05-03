@@ -106,6 +106,6 @@ deploy_monitoring:
     - helmfile --selector application=monitoring sync --args '--wait --timeout=300'
   environment:
     name: production-monitoring
-    url: https://idr-training.openmicroscopy.org/{prometheus,grafana}
+    url: https://idr-training.openmicroscopy.org/grafana
   only:
   - master
