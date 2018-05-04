@@ -43,7 +43,8 @@ approval:
   allow_failure: false
   only:
   - master
-  when: manual
+# Disable manual step since this is a test cluster
+#  when: manual
 
 # Public (no login) production
 # Upgrades if already installed
