@@ -101,7 +101,7 @@ releases:
   - name: grafana
     namespace: monitoring
     chart: stable/grafana
-    version: 1.2.0
+    version: 1.2.2
     labels:
       deployment: production
       application: monitoring

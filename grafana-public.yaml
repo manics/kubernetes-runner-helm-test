@@ -17,6 +17,9 @@ ingress:
 persistence:
   enabled: false
 
+image:
+  tag: 5.1.0
+
 # https://github.com/kubernetes/charts/blob/master/stable/grafana/templates/configmap.yaml
 # http://docs.grafana.org/installation/configuration/
 # grafana:
@@ -33,7 +36,8 @@ env:
   GF_AUTH_GITHUB_API_URL: https://api.github.com/user
   GF_AUTH_GITHUB_ALLOWED_ORGANISATIONS: openmicroscopy
   GF_SERVER_DOMAIN: idr-training.openmicroscopy.org
-  GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s:/grafana"
+  GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s/grafana/"
+  GF_LOG_LEVEL: debug
 
 datasources:
   datasources.yaml:
