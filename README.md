@@ -59,3 +59,13 @@ Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
 
 You can add details of the Kubernetes cluster to Gitlab to get additional integration: https://gitlab.com/help/user/project/clusters/index#adding-an-existing-kubernetes-cluster.
 However this didn't work for me.
+
+## Known errors
+
+If you see an error along the lines of
+
+Error: UPGRADE FAILED: render error in "jupyterhub/templates/proxy/deployment.yaml": template: jupyterhub/templates/proxy/deployment.yaml:17:32: executing "jupyterhub/templates/proxy/deployment.yaml" at <include (print $.Tem...>: error calling include: template: jupyterhub/templates/hub/secret.yaml:7:19: executing "jupyterhub/templates/hub/secret.yaml" at <required "Proxy toke...>: error calling required: Proxy token must be a 32 byte random string generated with `openssl rand -hex 32`!
+err: exit status 1
+ERROR: Job failed: error executing remote command: command terminated with non-zero exit code: Error executing in Docker Container: 1
+
+This may be a race condition in Helm. Retry the job.
