@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "oauth2-proxy.fullname" . }}
+  labels:
+    app: {{ template "oauth2-proxy.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "oauth2-proxy.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - entrypoint.sh
+            - --provider=github
+            - --github-org={{ .Values.github.organisation }}
+            - --email-domain=*
+            - --upstream=file:///dev/null
+            - --client-id={{ .Values.github.clientId }}
+            - --client-secret={{ .Values.github.clientSecret }}
+            - --cookie-name=oauth2_proxy_{{ .Values.ingress.path | replace "/" "_" }}
+            - --proxy-prefix={{ .Values.ingress.path }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: {{ .Values.service.internalPort }}
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: {{ .Values.service.internalPort }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}

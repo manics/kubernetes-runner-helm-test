@@ -1,0 +1,40 @@
+# Default values for oauth2-proxy.
+replicaCount: 1
+image:
+  repository: manics/oauth2-proxy-docker
+  tag: latest
+  pullPolicy: IfNotPresent
+github:
+  clientSecret:
+  clientId:
+  organisation:
+service:
+  name: oauth2-proxy
+  type: ClusterIP
+  externalPort: 4180
+  internalPort: 4180
+ingress:
+  enabled: true
+  # Used to create an Ingress record.
+  path: /oauth2
+  hosts:
+    - idr-analysis.openmicroscopy.org
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

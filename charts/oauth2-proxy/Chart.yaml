@@ -1,0 +1,4 @@
+apiVersion: v1
+description: OAuth2 Authentication Proxy
+name: oauth2-proxy
+version: 0.1.0
