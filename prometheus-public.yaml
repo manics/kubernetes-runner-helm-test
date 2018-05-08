@@ -28,3 +28,4 @@ server:
       - idr-training.openmicroscopy.org
   persistentVolume:
     enabled: false
+  retention: 21d

@@ -91,7 +91,7 @@ releases:
   - name: prometheus
     namespace: monitoring
     chart: stable/prometheus
-    version: 6.2.1
+    version: 6.3.3
     labels:
       deployment: production
       application: monitoring
