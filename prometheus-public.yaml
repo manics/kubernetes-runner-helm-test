@@ -10,9 +10,9 @@ pushgateway:
 rbac:
   create: true
 server:
+  baseURL: https://idr-training.openmicroscopy.org/prometheus
   extraArgs:
     # https://github.com/prometheus/prometheus/issues/2813#issuecomment-344359402
-    web.external-url: https://idr-training.openmicroscopy.org/prometheus
     web.route-prefix: /
   ingress:
     enabled: true
