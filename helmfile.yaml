@@ -115,3 +115,19 @@ releases:
 
 
     # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+
+  # - name: monitoring-oauth2
+  #   namespace: monitoring
+  #   chart: ./charts/oauth2-proxy
+  #   version: 0.1.0
+  #   labels:
+  #     deployment: production
+  #     application: monitoring
+  #   values:
+  #     - oauth2-proxy.yaml
+  #   set:
+  #     - name: github.clientId
+  #       value: "{{ env \"SECRET_MONITORING_GITHUB_CLIENTID\" }}"
+  #     - name: github.clientSecret
+  #       value: "{{ env \"SECRET_MONITORING_GITHUB_CLIENTSECRET\" }}"

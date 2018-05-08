@@ -1,0 +1,11 @@
+github:
+  organisation: openmicroscopy
+
+ingress:
+  path: /monitoring-oauth2
+  hosts:
+    - idr-training.openmicroscopy.org
+  annotations:
+  tls:
+  - hosts:
+    - idr-training.openmicroscopy.org
