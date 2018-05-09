@@ -68,7 +68,7 @@ dashboards:
     gnetId: 5849
     revision: 1
     datasource: Prometheus
-  - node-resources:
+  node-resources:
     gnetId: 6012
     revision: 1
     datasource: Prometheus
