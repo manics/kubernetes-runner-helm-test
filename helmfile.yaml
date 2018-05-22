@@ -1,7 +1,7 @@
 # Common configuration
 RELEASE_COMMON: &RELEASE_COMMON
   chart: jupyterhub/jupyterhub
-  version: v0.7-d617e0a
+  version: v0.7-e995f63
 
 repositories:
   - name: jupyterhub
