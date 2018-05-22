@@ -29,7 +29,7 @@ singleuser:
     type: none
   image:
     name: imagedata/idr-notebooks
-    tag: 0.8.1
+    tag: 0.8.0
 #    name: jupyter/base-notebook
 #    tag: 8a1b90cbcba5
     pullPolicy: Always
