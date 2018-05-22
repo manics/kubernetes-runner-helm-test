@@ -28,10 +28,8 @@ singleuser:
   storage:
     type: none
   image:
-    name: imagedata/idr-notebooks
-    tag: 0.8.0
-#    name: jupyter/base-notebook
-#    tag: 8a1b90cbcba5
+#    name: imagedata/idr-notebooks
+#    tag: 0.8.0
     pullPolicy: Always
   startTimeout: 1800
   cpu:
