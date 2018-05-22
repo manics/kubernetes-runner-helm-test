@@ -12,7 +12,7 @@ auth:
     org_whitelist:
     - idr-contrib
   scopes:
-  - read:org
+  - read:user
   admin:
     users:
     - manics
